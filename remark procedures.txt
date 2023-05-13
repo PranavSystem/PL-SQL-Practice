@@ -1,0 +1,18 @@
+1)
+delimiter //
+create procedure sal_remark(in pempno int,out psal double(9,2),out remark varchar(20))
+begin
+select sal+ifnull(comm,0) into psal from emp
+where empno=pempno;
+if psal<1000 then
+	set remark='git gud son';
+elseif psal>=1000 and psal<2000 then
+	set remark='getting good';
+else 
+	set remark='achieved your goal';
+end if;
+select psal,remark;
+end //
+delimiter ;
+
+drop procedure sal_remark;

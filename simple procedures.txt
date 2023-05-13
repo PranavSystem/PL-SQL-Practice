@@ -1,0 +1,27 @@
+1)
+delimiter //
+create procedure get_cnt_dept(in pdeptno int,out cnt int,out maxsal double(7,2))
+begin
+	select count(*),max(sal) into cnt,maxsal 
+	from emp e
+	where e.deptno=pdeptno;
+end //
+delimiter ;
+
+2)
+delimiter //
+create procedure disp_sal(in pdeptno int,in psal double(7,2))
+begin
+ 	select * from emp where deptno=pdeptno and sal>psal;
+end //
+delimiter ;
+
+call disp_sal(30,1000);
+
+3)
+delimiter //
+create procedure min_sal(out min_sal double(7,2))
+begin
+	select min(sal) from emp;
+end //
+delimiter; 

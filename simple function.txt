@@ -1,0 +1,9 @@
+delimiter //
+create function get_exp(hdate date) returns int
+begin
+ declare exp int;
+ set exp=floor(datediff(curdate(),hdate)/365);
+ return exp;
+end //
+delimiter ;
+

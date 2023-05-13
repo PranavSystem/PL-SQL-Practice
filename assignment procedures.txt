@@ -1,0 +1,28 @@
+1)
+delimiter //
+create procedure insert_values(in pempno int,in pename varchar(30),in psal double(9,2),in pjob varchar(20),in phiredate date)
+begin
+insert into emp(empno,ename,sal,job,hiredate)
+values(pempno,pename,psal,pjob,phiredate);
+end //
+delimiter ; 
+
+2)
+delimiter //
+create procedure del_entry(in pempno int)
+begin
+	delete from emp where empno=pempno;
+end //
+delimiter ;
+
+3)
+delimiter //
+create procedure find_all_dept(in pdeptno int, out minsal double(9,2), out maxsal double(9,2), out avgsal double(9,2), out countsal int)
+begin
+	select count(*), min(sal),max(sal),avg(sal) into 
+	countsal,minsal,maxsal,avgsal from emp
+	where deptno=pdeptno;
+end //
+delimiter ;
+
+drop procedure  find_all_dept;

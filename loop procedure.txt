@@ -1,0 +1,16 @@
+Delimiter //
+Create procedure displaydata(in start int,stop int)
+begin
+declare str varchar(50) default '';
+declare cnt int;
+set cnt=start;
+while cnt<=stop do
+	set str=concat(str,cnt,',');
+	set cnt=cnt+1;
+end while;
+set str=substring(str,1,length(str)-1);
+select str;
+end //
+delimiter ;
+
+drop procedure displaydata;
