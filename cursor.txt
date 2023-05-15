@@ -1,0 +1,71 @@
+delimiter //
+create procedure my_procedure()
+begin
+declare pename,pjob,remark varchar(30);
+declare pempno int;
+declare psal double(9,2);
+declare finished int default 0;
+create cur_whatev cursor for empno,ename,job,sal from emp;
+declare continue handler for not found set finished=1;
+open cur_whatev;
+l1:loop
+fetch cur_whatev into pempno,pename,pjob,psal
+if finished=1 then
+leave l1;
+end if;
+BUISNESS LOGIC
+end loop;
+close cur_whatev;
+select pename,pempno,pjob,psal,remark;
+end //
+delimiter;
+
+
+Example:
+
+Write a procedure to update price of product using cursor.
+If the category is chips then increase the price by 10%
+If the category is cold drink then increase the price by 20%
+Else increase by 8 %
+
+delimiter //
+create procedure changeprice()
+begin
+ declare finished int default 0;
+ declare vpid,vcid,vchipscatid,vdrinkcatid,vqty int;
+ declare vprice double(9,2);
+ declare vname varchar(20);
+ declare prod_cur cursor for select * from product;
+ declare continue handler for NOT FOUND set finished=1;
+ 
+ open prod_cur;
+ select cid into vchipscatid
+ from category
+ where cname='chips';
+ 
+ select cid into vdrinkcatid
+ from category
+ where cname='cold drink';
+ l1:loop
+ fetch prod_cur into vpid,vname,vqty,vprice,vcid;
+ if finished=1 then
+ leave l1;
+ end if;
+ if vcid = vchipscatid then
+ update product
+ set price=1.1*ifnull(price,1)
+ where pid=vpid;
+ elseif vcid = vdrinkcatid then
+ update product
+ set price=1.2*ifnull(price,1)
+ where pid=vpid;
+ else 
+ update product
+ set price=1.08*ifnull(price,1)
+ where pid=vpid;
+ end if;
+ 
+ end loop;
+end//
+
+call changeprice();
