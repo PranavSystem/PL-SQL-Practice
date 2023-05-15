@@ -1,0 +1,16 @@
+delimiter //
+create trigger tgr after insert on emp
+for each row
+begin
+ insert into empsecurity values (new.empno,new.ename,'insert',null,new.sal,user(),curdate());
+end //
+delimiter ;
+
+delimiter //
+create trigger del_tgr after delete on emp
+for each row
+begin
+ insert into empsecurity values (old.empno,old.ename,'delete',old.sal,null,user(),curdate());
+end //
+delimiter ;
+
